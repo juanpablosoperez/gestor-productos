@@ -64,9 +64,10 @@ const mostrarMenu = () => {
  * Función para agregar un nuevo producto
  */
 const agregarProducto = () => {
-    console.log('\n=== AGREGAR PRODUCTO ===');
-    console.log('Función agregar producto');
-    // TODO: Implementar lógica para agregar producto
+    const producto = productService.agregarProducto();
+    if (producto === null) {
+        console.log('\n❌ No se pudo agregar el producto. Por favor, intente nuevamente.');
+    }
 };
 
 /**
