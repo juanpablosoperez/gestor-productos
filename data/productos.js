@@ -1,28 +1,32 @@
-/**
- * Datos de productos
- * Contiene el array inicial de productos y funciones para su gestión
- */
-
-// Array inicial de productos
 const productos = [
-    {
-        id: 1,
-        nombre: "Laptop HP",
-        categoria: "Electrónicos",
-        precio: 899.99,
-        stock: 15,
-        descripcion: "Laptop HP 15.6 pulgadas, 8GB RAM, 256GB SSD"
-    },
-    {
-        id: 2,
-        nombre: "Monitor Dell",
-        categoria: "Electrónicos",
-        precio: 299.99,
-        stock: 20,
-        descripcion: "Monitor Dell 24 pulgadas Full HD"
-    }
+  {
+    nombre: "Notebook Lenovo",
+    precio: 850.0,
+    categoria: "Tecnología",
+    stock: 12,
+  },
+  {
+    nombre: "Zapatillas Nike",
+    precio: 120.5,
+    categoria: "Calzado",
+    stock: 25,
+  },
+  {
+    nombre: "Auriculares JBL",
+    precio: 60.99,
+    categoria: "Tecnología",
+    stock: 8,
+  },
+  {
+    nombre: "Remera deportiva",
+    precio: 30.0,
+    categoria: "Ropa",
+    stock: 40,
+  },
+  {
+    nombre: "Libro 'El arte de la guerra'",
+    precio: 22.99,
+    categoria: "Libros",
+    stock: 15,
+  },
 ];
-
-module.exports = {
-    productos
-}; 
