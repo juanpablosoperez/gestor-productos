@@ -1,58 +1,84 @@
 /**
  * Menú Principal
- * Implementa la interfaz de usuario en consola
+ * Implementa la interfaz de usuario en consola usando readline-sync
  */
 
-const readline = require('readline');
+const readlineSync = require('readline-sync');
 const productService = require('../services/productService');
-
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
 
 /**
  * Muestra el menú principal y maneja la selección del usuario
  */
 const mostrarMenu = () => {
-    console.log('\n=== MENÚ PRINCIPAL ===');
-    console.log('1. Ver todos los productos');
-    console.log('2. Buscar producto por ID');
-    console.log('3. Agregar nuevo producto');
-    console.log('4. Eliminar producto');
-    console.log('5. Salir');
+    let salir = false;
 
-    rl.question('\nSeleccione una opción (1-5): ', (opcion) => {
+    while (!salir) {
+        console.clear();
+        console.log('\n=== MENÚ PRINCIPAL ===');
+        console.log('1. Agregar producto');
+        console.log('2. Listar productos');
+        console.log('3. Buscar productos');
+        console.log('4. Modificar producto');
+        console.log('5. Eliminar producto');
+        console.log('6. Calcular precio promedio');
+        console.log('7. Salir');
+
+        const opcion = readlineSync.questionInt('\nSeleccione una opción (1-7): ', {
+            limitMessage: 'Por favor, ingrese un número entre 1 y 7',
+            min: 1,
+            max: 7
+        });
+
         switch(opcion) {
-            case '1':
-                mostrarProductos();
-                break;
-            case '2':
-                buscarProducto();
-                break;
-            case '3':
+            case 1:
                 agregarProducto();
                 break;
-            case '4':
+            case 2:
+                listarProductos();
+                break;
+            case 3:
+                buscarProductos();
+                break;
+            case 4:
+                modificarProducto();
+                break;
+            case 5:
                 eliminarProducto();
                 break;
-            case '5':
-                console.log('\n¡Gracias por usar el sistema!');
-                rl.close();
+            case 6:
+                calcularPrecioPromedio();
                 break;
-            default:
-                console.log('\nOpción no válida. Intente nuevamente.');
-                mostrarMenu();
+            case 7:
+                salir = true;
+                console.log('\n¡Gracias por usar el sistema!');
+                break;
         }
-    });
+
+        if (!salir) {
+            readlineSync.question('\nPresione ENTER para continuar...');
+        }
+    }
 };
 
 /**
- * Muestra la lista de todos los productos
+ * Función para agregar un nuevo producto
  */
-const mostrarProductos = () => {
-    const productos = productService.obtenerProductos();
+const agregarProducto = () => {
+    console.log('\n=== AGREGAR PRODUCTO ===');
+    console.log('Función agregar producto');
+    // TODO: Implementar lógica para agregar producto
+};
+
+/**
+ * Función para listar todos los productos
+ */
+const listarProductos = () => {
     console.log('\n=== LISTA DE PRODUCTOS ===');
+    const productos = productService.obtenerProductos();
+    if (productos.length === 0) {
+        console.log('No hay productos registrados.');
+        return;
+    }
     productos.forEach(producto => {
         console.log(`\nID: ${producto.id}`);
         console.log(`Nombre: ${producto.nombre}`);
@@ -61,11 +87,48 @@ const mostrarProductos = () => {
         console.log(`Stock: ${producto.stock}`);
         console.log(`Descripción: ${producto.descripcion}`);
     });
-    mostrarMenu();
 };
 
-// Las funciones buscarProducto, agregarProducto y eliminarProducto
-// se implementarán en futuras iteraciones
+/**
+ * Función para buscar productos
+ */
+const buscarProductos = () => {
+    console.log('\n=== BUSCAR PRODUCTOS ===');
+    console.log('Función buscar productos');
+    // TODO: Implementar lógica para buscar productos
+};
+
+/**
+ * Función para modificar un producto
+ */
+const modificarProducto = () => {
+    console.log('\n=== MODIFICAR PRODUCTO ===');
+    console.log('Función modificar producto');
+    // TODO: Implementar lógica para modificar producto
+};
+
+/**
+ * Función para eliminar un producto
+ */
+const eliminarProducto = () => {
+    console.log('\n=== ELIMINAR PRODUCTO ===');
+    console.log('Función eliminar producto');
+    // TODO: Implementar lógica para eliminar producto
+};
+
+/**
+ * Función para calcular el precio promedio
+ */
+const calcularPrecioPromedio = () => {
+    console.log('\n=== CALCULAR PRECIO PROMEDIO ===');
+    const productos = productService.obtenerProductos();
+    if (productos.length === 0) {
+        console.log('No hay productos para calcular el promedio.');
+        return;
+    }
+    const promedio = productos.reduce((acc, prod) => acc + prod.precio, 0) / productos.length;
+    console.log(`El precio promedio de los productos es: $${promedio.toFixed(2)}`);
+};
 
 module.exports = {
     mostrarMenu
