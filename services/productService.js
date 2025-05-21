@@ -188,91 +188,31 @@ const modificarProducto = () => {
   console.log("\n Producto modificado exitosamente.");
 };
 
-const modificarProducto = () => {
-  const lista = obtenerProductos();
-
-  console.log("\nLista de productos:");
-  lista.forEach((p) => {
-    console.log(`ID: ${p.id} | Nombre: ${p.nombre}`);
-  });
-
-  const id = readlineSync.questionInt(
-    "Ingrese el ID del producto a modificar: "
-  );
-
-  const productos = obtenerProductos();
-  const index = productos.findIndex((producto) => producto.id === id);
-
-  if (index === -1) {
-    console.log(" No se encontró ningún producto con ese ID.");
-    return;
-  }
-
-  const producto = productos[index];
-
-  console.log(
-    `\nProducto actual:\nNombre: ${producto.nombre} | Precio: $${producto.precio} | Categoría: ${producto.categoria} | Stock: ${producto.stock}`
-  );
-
-  // Modificación interactiva con validación
-  const nuevoNombre =
-    readlineSync.question(`Nuevo nombre [${producto.nombre}]: `).trim() ||
-    producto.nombre;
-
-  const nuevoPrecioStr = readlineSync
-    .question(`Nuevo precio [${producto.precio}]: `)
-    .trim();
-  const nuevoPrecio =
-    nuevoPrecioStr === "" ? producto.precio : parseFloat(nuevoPrecioStr);
-
-  const nuevaCategoria =
-    readlineSync.question(`Nueva categoría [${producto.categoria}]: `).trim() ||
-    producto.categoria;
-
-  const nuevoStockStr = readlineSync
-    .question(`Nuevo stock [${producto.stock}]: `)
-    .trim();
-  const nuevoStock =
-    nuevoStockStr === "" ? producto.stock : parseInt(nuevoStockStr);
-
-  // Validaciones
-  if (
-    !validarStringNoVacio(nuevoNombre) ||
-    !validarDecimal(nuevoPrecio) ||
-    !validarStringNoVacio(nuevaCategoria) ||
-    isNaN(nuevoStock) ||
-    nuevoStock < 0
-  ) {
-    console.log("\n Error: Uno o más campos ingresados no son válidos.");
-    return;
-  }
-
-  // Actualizar
-  producto.nombre = nuevoNombre;
-  producto.precio = nuevoPrecio;
-  producto.categoria = nuevaCategoria;
-  producto.stock = nuevoStock;
-  producto.descripcion = `${nuevoNombre} - ${nuevaCategoria}`;
-
-  console.log("\n Producto modificado exitosamente.");
-};
-
 /**
  * Elimina un producto solicitando el ID al usuario
  * @returns {boolean} true si se eliminó, false si no
  */
 const eliminarProducto = () => {
   console.log("\n=== ELIMINAR PRODUCTO ===");
-  
+
   // Mostrar lista de productos disponibles
   console.log("\nProductos disponibles:");
-  console.log(productos
-    .map(p => `ID: ${p.id} | Nombre: ${p.nombre} | Precio: $${p.precio.toFixed(2)} | Categoría: ${p.categoria} | Stock: ${p.stock}`)
-    .join("\n"));
+  console.log(
+    productos
+      .map(
+        (p) =>
+          `ID: ${p.id} | Nombre: ${p.nombre} | Precio: $${p.precio.toFixed(
+            2
+          )} | Categoría: ${p.categoria} | Stock: ${p.stock}`
+      )
+      .join("\n")
+  );
 
   // Solicitar ID del producto a eliminar
-  const id = readlineSync.questionInt("\nIngrese el ID del producto a eliminar: ");
-  
+  const id = readlineSync.questionInt(
+    "\nIngrese el ID del producto a eliminar: "
+  );
+
   // Validar el ID
   if (!validarId(id)) {
     console.log("\n❌ Error: ID inválido. Debe ser un número positivo.");
@@ -280,8 +220,8 @@ const eliminarProducto = () => {
   }
 
   // Buscar el producto
-  const index = productos.findIndex(p => p.id === id);
-  
+  const index = productos.findIndex((p) => p.id === id);
+
   if (index === -1) {
     console.log("\n❌ Error: No se encontró ningún producto con ese ID.");
     return false;
@@ -319,24 +259,36 @@ const buscarProductos = () => {
       return null;
 
     case 1: // Filtrar por categoría
-      const categorias = [...new Set(productos.map(p => p.categoria))];
+      const categorias = [...new Set(productos.map((p) => p.categoria))];
       console.log("\nCategorías disponibles:");
       categorias.forEach((cat, index) => console.log(`${index + 1}. ${cat}`));
-      
-      const categoriaSeleccionada = readlineSync.question("\nIngrese el número de la categoría: ");
+
+      const categoriaSeleccionada = readlineSync.question(
+        "\nIngrese el número de la categoría: "
+      );
       const categoria = categorias[parseInt(categoriaSeleccionada) - 1];
-      
+
       if (categoria) {
-        productosFiltrados = productos.filter(p => p.categoria === categoria);
+        productosFiltrados = productos.filter((p) => p.categoria === categoria);
       }
       break;
 
     case 2: // Filtrar por rango de precio
-      const precioMin = readlineSync.questionFloat("\nIngrese el precio mínimo: ");
-      const precioMax = readlineSync.questionFloat("Ingrese el precio máximo: ");
-      
-      if (validarDecimal(precioMin) && validarDecimal(precioMax) && precioMin <= precioMax) {
-        productosFiltrados = productos.filter(p => p.precio >= precioMin && p.precio <= precioMax);
+      const precioMin = readlineSync.questionFloat(
+        "\nIngrese el precio mínimo: "
+      );
+      const precioMax = readlineSync.questionFloat(
+        "Ingrese el precio máximo: "
+      );
+
+      if (
+        validarDecimal(precioMin) &&
+        validarDecimal(precioMax) &&
+        precioMin <= precioMax
+      ) {
+        productosFiltrados = productos.filter(
+          (p) => p.precio >= precioMin && p.precio <= precioMax
+        );
       } else {
         console.log("\n❌ Error: Rango de precios inválido");
         return null;
@@ -344,7 +296,7 @@ const buscarProductos = () => {
       break;
 
     case 3: // Filtrar por disponibilidad
-      productosFiltrados = productos.filter(p => p.stock > 0);
+      productosFiltrados = productos.filter((p) => p.stock > 0);
       break;
 
     case 4: // Múltiples filtros
@@ -352,11 +304,12 @@ const buscarProductos = () => {
       console.log("1. Categoría");
       console.log("2. Rango de precio");
       console.log("3. Disponibilidad");
-      
-      const filtrosSeleccionados = readlineSync.question("\nIngrese los números de los filtros (ej: 1,2,3): ")
-        .split(',')
-        .map(f => f.trim())
-        .filter(f => ['1', '2', '3'].includes(f));
+
+      const filtrosSeleccionados = readlineSync
+        .question("\nIngrese los números de los filtros (ej: 1,2,3): ")
+        .split(",")
+        .map((f) => f.trim())
+        .filter((f) => ["1", "2", "3"].includes(f));
 
       if (filtrosSeleccionados.length === 0) {
         console.log("\n❌ Error: Debe seleccionar al menos un filtro");
@@ -364,30 +317,44 @@ const buscarProductos = () => {
       }
 
       // Aplicar filtros seleccionados
-      if (filtrosSeleccionados.includes('1')) {
-        const categorias = [...new Set(productos.map(p => p.categoria))];
+      if (filtrosSeleccionados.includes("1")) {
+        const categorias = [...new Set(productos.map((p) => p.categoria))];
         console.log("\nCategorías disponibles:");
         categorias.forEach((cat, index) => console.log(`${index + 1}. ${cat}`));
-        const categoriaSeleccionada = readlineSync.question("\nIngrese el número de la categoría: ");
+        const categoriaSeleccionada = readlineSync.question(
+          "\nIngrese el número de la categoría: "
+        );
         const categoria = categorias[parseInt(categoriaSeleccionada) - 1];
         if (categoria) {
-          productosFiltrados = productosFiltrados.filter(p => p.categoria === categoria);
+          productosFiltrados = productosFiltrados.filter(
+            (p) => p.categoria === categoria
+          );
         }
       }
 
-      if (filtrosSeleccionados.includes('2')) {
-        const precioMin = readlineSync.questionFloat("\nIngrese el precio mínimo: ");
-        const precioMax = readlineSync.questionFloat("Ingrese el precio máximo: ");
-        if (validarDecimal(precioMin) && validarDecimal(precioMax) && precioMin <= precioMax) {
-          productosFiltrados = productosFiltrados.filter(p => p.precio >= precioMin && p.precio <= precioMax);
+      if (filtrosSeleccionados.includes("2")) {
+        const precioMin = readlineSync.questionFloat(
+          "\nIngrese el precio mínimo: "
+        );
+        const precioMax = readlineSync.questionFloat(
+          "Ingrese el precio máximo: "
+        );
+        if (
+          validarDecimal(precioMin) &&
+          validarDecimal(precioMax) &&
+          precioMin <= precioMax
+        ) {
+          productosFiltrados = productosFiltrados.filter(
+            (p) => p.precio >= precioMin && p.precio <= precioMax
+          );
         } else {
           console.log("\n❌ Error: Rango de precios inválido");
           return null;
         }
       }
 
-      if (filtrosSeleccionados.includes('3')) {
-        productosFiltrados = productosFiltrados.filter(p => p.stock > 0);
+      if (filtrosSeleccionados.includes("3")) {
+        productosFiltrados = productosFiltrados.filter((p) => p.stock > 0);
       }
       break;
 
@@ -398,15 +365,24 @@ const buscarProductos = () => {
 
   // Mostrar resultados
   if (productosFiltrados.length === 0) {
-    console.log("\n❌ No se encontraron productos que coincidan con los criterios de búsqueda");
+    console.log(
+      "\n❌ No se encontraron productos que coincidan con los criterios de búsqueda"
+    );
     return null;
   }
 
   console.log("\n=== RESULTADOS DE LA BÚSQUEDA ===");
-  console.log(productosFiltrados
-    .map(p => `ID: ${p.id} | Nombre: ${p.nombre} | Precio: $${p.precio.toFixed(2)} | Categoría: ${p.categoria} | Stock: ${p.stock}`)
-    .join("\n"));
-  
+  console.log(
+    productosFiltrados
+      .map(
+        (p) =>
+          `ID: ${p.id} | Nombre: ${p.nombre} | Precio: $${p.precio.toFixed(
+            2
+          )} | Categoría: ${p.categoria} | Stock: ${p.stock}`
+      )
+      .join("\n")
+  );
+
   return productosFiltrados;
 };
 const calcularPrecioPromedio = () => {
@@ -431,7 +407,7 @@ module.exports = {
   buscarProductoPorId,
   agregarProducto,
   eliminarProducto,
-  buscarProductos
+  buscarProductos,
   modificarProducto,
   calcularPrecioPromedio,
 };
