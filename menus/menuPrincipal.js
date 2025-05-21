@@ -132,16 +132,7 @@ const eliminarProducto = () => {
  */
 const calcularPrecioPromedio = () => {
   console.log("\n=== CALCULAR PRECIO PROMEDIO ===");
-  const productos = productService.obtenerProductos();
-  if (productos.length === 0) {
-    console.log("No hay productos para calcular el promedio.");
-    return;
-  }
-  const promedio =
-    productos.reduce((acc, prod) => acc + prod.precio, 0) / productos.length;
-  console.log(
-    `El precio promedio de los productos es: $${promedio.toFixed(2)}`
-  );
+  const productos = productService.calcularPrecioPromedio();
 };
 
 module.exports = {

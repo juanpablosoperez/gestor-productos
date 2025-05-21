@@ -201,6 +201,21 @@ const eliminarProducto = (id) => {
   productos.splice(index, 1);
   return true;
 };
+const calcularPrecioPromedio = () => {
+  const productos = obtenerProductos();
+
+  if (productos.length === 0) {
+    console.log("No hay productos para calcular el promedio.");
+    return;
+  }
+
+  const total = productos.reduce((acum, producto) => acum + producto.precio, 0);
+  const promedio = total / productos.length;
+
+  console.log(
+    `El precio promedio de los productos es: $${promedio.toFixed(2)}`
+  );
+};
 
 module.exports = {
   obtenerProductos,
@@ -209,4 +224,5 @@ module.exports = {
   agregarProducto,
   eliminarProducto,
   modificarProducto,
+  calcularPrecioPromedio,
 };
