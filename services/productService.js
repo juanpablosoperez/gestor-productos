@@ -119,6 +119,75 @@ const agregarProducto = () => {
   return nuevoProducto;
 };
 
+const modificarProducto = () => {
+  const lista = obtenerProductos();
+
+  console.log("\nLista de productos:");
+  lista.forEach((p) => {
+    console.log(`ID: ${p.id} | Nombre: ${p.nombre}`);
+  });
+
+  const id = readlineSync.questionInt(
+    "Ingrese el ID del producto a modificar: "
+  );
+
+  const productos = obtenerProductos();
+  const index = productos.findIndex((producto) => producto.id === id);
+
+  if (index === -1) {
+    console.log(" No se encontró ningún producto con ese ID.");
+    return;
+  }
+
+  const producto = productos[index];
+
+  console.log(
+    `\nProducto actual:\nNombre: ${producto.nombre} | Precio: $${producto.precio} | Categoría: ${producto.categoria} | Stock: ${producto.stock}`
+  );
+
+  // Modificación interactiva con validación
+  const nuevoNombre =
+    readlineSync.question(`Nuevo nombre [${producto.nombre}]: `).trim() ||
+    producto.nombre;
+
+  const nuevoPrecioStr = readlineSync
+    .question(`Nuevo precio [${producto.precio}]: `)
+    .trim();
+  const nuevoPrecio =
+    nuevoPrecioStr === "" ? producto.precio : parseFloat(nuevoPrecioStr);
+
+  const nuevaCategoria =
+    readlineSync.question(`Nueva categoría [${producto.categoria}]: `).trim() ||
+    producto.categoria;
+
+  const nuevoStockStr = readlineSync
+    .question(`Nuevo stock [${producto.stock}]: `)
+    .trim();
+  const nuevoStock =
+    nuevoStockStr === "" ? producto.stock : parseInt(nuevoStockStr);
+
+  // Validaciones
+  if (
+    !validarStringNoVacio(nuevoNombre) ||
+    !validarDecimal(nuevoPrecio) ||
+    !validarStringNoVacio(nuevaCategoria) ||
+    isNaN(nuevoStock) ||
+    nuevoStock < 0
+  ) {
+    console.log("\n Error: Uno o más campos ingresados no son válidos.");
+    return;
+  }
+
+  // Actualizar
+  producto.nombre = nuevoNombre;
+  producto.precio = nuevoPrecio;
+  producto.categoria = nuevaCategoria;
+  producto.stock = nuevoStock;
+  producto.descripcion = `${nuevoNombre} - ${nuevaCategoria}`;
+
+  console.log("\n Producto modificado exitosamente.");
+};
+
 /**
  * Elimina un producto por su ID
  * @param {number} id - ID del producto a eliminar
@@ -139,4 +208,5 @@ module.exports = {
   buscarProductoPorId,
   agregarProducto,
   eliminarProducto,
+  modificarProducto,
 };

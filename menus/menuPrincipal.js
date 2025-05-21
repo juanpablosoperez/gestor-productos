@@ -108,7 +108,13 @@ const buscarProductos = () => {
  */
 const modificarProducto = () => {
   console.log("\n=== MODIFICAR PRODUCTO ===");
-  console.log("Función modificar producto");
+  const fueModificado = productService.modificarProducto();
+
+  if (fueModificado) {
+    console.log(`\n Productose modifico correctamente.`);
+  } else {
+    console.log(`\n No se pudo modificar el producto.`);
+  }
   // TODO: Implementar lógica para modificar producto
 };
 
