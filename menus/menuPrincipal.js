@@ -98,9 +98,10 @@ const listarProductos = () => {
  * Función para buscar productos
  */
 const buscarProductos = () => {
-  console.log("\n=== BUSCAR PRODUCTOS ===");
-  console.log("Función buscar productos");
-  // TODO: Implementar lógica para buscar productos
+  const resultados = productService.buscarProductos();
+  if (resultados === null) {
+    console.log("\n❌ No se encontraron productos o hubo un error en la búsqueda.");
+  }
 };
 
 /**
