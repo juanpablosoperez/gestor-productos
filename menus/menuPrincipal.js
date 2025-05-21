@@ -117,9 +117,10 @@ const modificarProducto = () => {
  * Función para eliminar un producto
  */
 const eliminarProducto = () => {
-  console.log("\n=== ELIMINAR PRODUCTO ===");
-  console.log("Función eliminar producto");
-  // TODO: Implementar lógica para eliminar producto
+  const eliminado = productService.eliminarProducto();
+  if (!eliminado) {
+    console.log("\n❌ No se pudo eliminar el producto. Por favor, intente nuevamente.");
+  }
 };
 
 /**

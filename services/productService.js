@@ -120,16 +120,43 @@ const agregarProducto = () => {
 };
 
 /**
- * Elimina un producto por su ID
- * @param {number} id - ID del producto a eliminar
+ * Elimina un producto solicitando el ID al usuario
  * @returns {boolean} true si se eliminó, false si no
  */
-const eliminarProducto = (id) => {
-  if (!validarId(id)) return false;
-  const index = productos.findIndex((p) => p.id === id);
-  if (index === -1) return false;
+const eliminarProducto = () => {
+  console.log("\n=== ELIMINAR PRODUCTO ===");
+  
+  // Mostrar lista de productos disponibles
+  console.log("\nProductos disponibles:");
+  console.log(productos
+    .map(p => `ID: ${p.id} | Nombre: ${p.nombre} | Precio: $${p.precio.toFixed(2)} | Categoría: ${p.categoria} | Stock: ${p.stock}`)
+    .join("\n"));
 
+  // Solicitar ID del producto a eliminar
+  const id = readlineSync.questionInt("\nIngrese el ID del producto a eliminar: ");
+  
+  // Validar el ID
+  if (!validarId(id)) {
+    console.log("\n❌ Error: ID inválido. Debe ser un número positivo.");
+    return false;
+  }
+
+  // Buscar el producto
+  const index = productos.findIndex(p => p.id === id);
+  
+  if (index === -1) {
+    console.log("\n❌ Error: No se encontró ningún producto con ese ID.");
+    return false;
+  }
+
+  // Guardar nombre del producto antes de eliminarlo para el mensaje de confirmación
+  const nombreProducto = productos[index].nombre;
+
+  // Eliminar el producto
   productos.splice(index, 1);
+
+  // Mostrar confirmación
+  console.log(`\n✅ Producto "${nombreProducto}" eliminado exitosamente.`);
   return true;
 };
 
