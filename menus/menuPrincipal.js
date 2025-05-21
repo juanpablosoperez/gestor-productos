@@ -98,9 +98,10 @@ const listarProductos = () => {
  * Función para buscar productos
  */
 const buscarProductos = () => {
-  console.log("\n=== BUSCAR PRODUCTOS ===");
-  console.log("Función buscar productos");
-  // TODO: Implementar lógica para buscar productos
+  const resultados = productService.buscarProductos();
+  if (resultados === null) {
+    console.log("\n❌ No se encontraron productos o hubo un error en la búsqueda.");
+  }
 };
 
 /**
@@ -122,9 +123,10 @@ const modificarProducto = () => {
  * Función para eliminar un producto
  */
 const eliminarProducto = () => {
-  console.log("\n=== ELIMINAR PRODUCTO ===");
-  console.log("Función eliminar producto");
-  // TODO: Implementar lógica para eliminar producto
+  const eliminado = productService.eliminarProducto();
+  if (!eliminado) {
+    console.log("\n❌ No se pudo eliminar el producto. Por favor, intente nuevamente.");
+  }
 };
 
 /**
