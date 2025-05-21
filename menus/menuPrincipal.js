@@ -100,7 +100,9 @@ const listarProductos = () => {
 const buscarProductos = () => {
   const resultados = productService.buscarProductos();
   if (resultados === null) {
-    console.log("\n❌ No se encontraron productos o hubo un error en la búsqueda.");
+    console.log(
+      "\n❌ No se encontraron productos o hubo un error en la búsqueda."
+    );
   }
 };
 
@@ -110,13 +112,6 @@ const buscarProductos = () => {
 const modificarProducto = () => {
   console.log("\n=== MODIFICAR PRODUCTO ===");
   const fueModificado = productService.modificarProducto();
-
-  if (fueModificado) {
-    console.log(`\n Productose modifico correctamente.`);
-  } else {
-    console.log(`\n No se pudo modificar el producto.`);
-  }
-  // TODO: Implementar lógica para modificar producto
 };
 
 /**
@@ -125,7 +120,9 @@ const modificarProducto = () => {
 const eliminarProducto = () => {
   const eliminado = productService.eliminarProducto();
   if (!eliminado) {
-    console.log("\n❌ No se pudo eliminar el producto. Por favor, intente nuevamente.");
+    console.log(
+      "\n❌ No se pudo eliminar el producto. Por favor, intente nuevamente."
+    );
   }
 };
 
